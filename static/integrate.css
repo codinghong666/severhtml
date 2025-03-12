@@ -1,0 +1,135 @@
+:root {
+    --primary-color: #004a99;
+    --secondary-color: #0073cf;
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --white-color: #fff;
+    --button-bg-color: #0073cf;
+    --button-hover-bg-color: #005a99;
+    --button-color: #fff;
+    --input-bg-color: #fff;
+    --input-border-color: #ccc;
+    --output-bg-color: #f9f9f9;
+    --output-text-color: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 30px;
+}
+
+h1 {
+    color: var(--primary-color);
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+form {
+    background-color: var(--white-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+textarea,
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    background-color: var(--input-bg-color);
+}
+
+textarea:focus,
+input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: var(--button-bg-color);
+    color: var(--button-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: var(--button-hover-bg-color);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+#result {
+    margin-top: 30px;
+    font-size: 22px;
+    background-color: var(--output-bg-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: var(--output-text-color);
+    min-height: 50px;
+    width: 80%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    form {
+        width: 100%;
+        padding: 15px;
+    }
+
+    textarea,
+    input[type="text"] {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    #result {
+        font-size: 18px;
+        padding: 15px;
+    }
+}

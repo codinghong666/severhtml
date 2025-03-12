@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>矩阵计算器</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='handinput.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='mylabel.css') }}">
+    <script src="{{ url_for('static', filename='mylabel.js') }}" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>矩阵计算器</h2>
+        
+        <!-- 输入矩阵大小 -->
+        <!-- <typed-text-effect
+                            texts='[" Hand Input Can calculate the transpose of a matrix. Enter the number of rows and columns, fill in the matrix elements."]'
+                            delay="70" font-size="1em"></typed-text-effect> -->
+        <br>
+        <form id="matrix-size-form" method="POST" onsubmit="generateMatrix(); return false;">
+            <div class="mb-3">
+                <label for="rows" class="form-label">矩阵行数 (n):</label>
+                <input type="number" id="rows" name="rows" class="form-control" min="1" required>
+            </div>
+            <div class="mb-3">
+                <label for="cols" class="form-label">矩阵列数 (m):</label>
+                <input type="number" id="cols" name="cols" class="form-control" min="1" required>
+            </div>
+            <button type="submit" class="btn btn-primary">生成矩阵</button>
+        </form>
+
+        <!-- 动态矩阵输入框 -->
+        <div id="matrix-container" class="matrix-container" style="display: none;">
+            <h4>请输入矩阵元素</h4>
+            <form id="matrix-form" method="POST">
+                <!-- 这里动态生成矩阵行 -->
+                <div id="matrix-inputs"></div>
+                <input type="hidden" id="hidden-rows" name="rows">
+                <input type="hidden" id="hidden-cols" name="cols">
+                <button type="submit" class="btn btn-success matrix-btn" onclick="submitMatrix()">提交矩阵</button>
+            </form>
+        </div>
+
+        <!-- 显示结果 -->
+        <div id="result" class="result">
+            {% if latexmatrix %}
+                <h3>矩阵:</h3>
+                <p>$$ {{ latexmatrix }} $$</p>
+            {% endif %}
+            {% if result %}
+                <h3>矩阵转置:</h3>
+                <p>$$ {{ result }} $$</p>
+            {% endif %}
+            {% if determinant %}
+            <h3>矩阵的行列式:</h3>
+            <p>$$ {{ determinant }} $$</p>
+            {% endif %}
+            {% if inverse %}
+                <h3>逆矩阵:</h3>
+                <p>$$ {{ inverse }} $$</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+
+</html>

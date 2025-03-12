@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwritten Math Input</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css">
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid black;
+            cursor: crosshair;
+            background-color: white;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Handwrite Math Symbols</h2>
+    <canvas id="canvas" width="400" height="200"></canvas>
+    <br>
+    <button onclick="clearCanvas()">Clear</button>
+    <button onclick="saveImage()">Submit</button>
+
+    <div id="result">
+        <h3>Recognized LaTeX Formula:</h3>
+        <div id="latex-output">undefined</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+
+        function setCanvasBackground() {
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        setCanvasBackground();
+
+        function startDraw(e) {
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        }
+
+        function stopDraw() {
+            drawing = false;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            setCanvasBackground();
+        }
+
+        function saveImage() {
+            const dataURL = canvas.toDataURL("image/png");
+
+            if (dataURL === "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4/wcAAwAB/1k4DgAAAABJRU5ErkJggg==") {
+                alert("Please draw something before submitting!");
+                return;
+            }
+
+            fetch('/handwritten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: dataURL })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.latex) {
+                    renderLaTeX(data.latex);
+                } else {
+                    document.getElementById("latex-output").innerText = "Error processing handwriting.";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error submitting handwriting!');
+            });
+        }
+
+        function renderLaTeX(latexStr) {
+            document.getElementById("latex-output").innerHTML = "";
+            katex.render(latexStr, document.getElementById("latex-output"), {
+                throwOnError: false
+            });
+        }
+
+        // Event Listeners
+        canvas.addEventListener("mousedown", startDraw);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stopDraw);
+        canvas.addEventListener("mouseleave", stopDraw);
+
+        // Load initial LaTeX content from the backend
+        fetch('/handwritten')
+        .then(response => response.text())
+        .then(data => {
+            renderLaTeX(data.trim());
+        });
+    </script>
+</body>
+</html>

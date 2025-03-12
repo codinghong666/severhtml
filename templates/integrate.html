@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='integrate.css') }}">
+    <title>积分计算</title>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+</head>
+<body>
+    <h1>积分计算</h1>
+    
+    <form id="integrateForm">
+        <label for="expression">输入表达式 (LaTeX 格式):</label><br>
+        <textarea id="expression" name="expression" rows="4" cols="50"></textarea><br><br>
+        
+        <label for="variable">输入主元:</label><br>
+        <input type="text" id="variable" name="variable"><br><br>
+        
+        <button type="button" onclick="calculate()">计算</button>
+    </form>
+
+    <h3>计算结果：</h3>
+    <div id="result">
+        <p>$$ {result} $$</p>
+    </div>
+
+    <script>
+        async function calculate() {
+            const expression = document.getElementById("expression").value;
+            const variable = document.getElementById("variable").value;
+
+            const response = await fetch("/integrate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    expression: expression,
+                    variable: variable
+                })
+            });
+
+            const data = await response.json();
+            document.getElementById("result").innerHTML = `$$ ${data.result} $$` || data.error;
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById("output")]);
+     
+        }
+    </script>
+</body>
+</html>

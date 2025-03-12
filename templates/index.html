@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='code-effect.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='mylabel.css') }}">
+    <script src="{{ url_for('static', filename='mylabel.js') }}" defer></script>
+</head>
+<body>
+    <!-- 标签栏 -->
+    <div class="header">
+        <a href="handinput" target="_blank">Hand Input</a>
+        <a href="codeinput" target="_blank">Code Matrix</a>
+        <a href="integrate" target="_blank">Integrate</a>
+        <a href="handwritten" target="_blank">Handwritten</a>
+    </div>
+
+    <!-- 介绍内容 -->
+    <br>
+    <!-- <div id="intro-container"></div> -->
+    
+    <typed-text-effect texts='["Welcome to My Project! \nExplore the tools and features."]' delay="70"
+        font-size="4em"></typed-text-effect>
+
+    <!-- <script src="{{ url_for('static', filename='index.js') }}"></script> -->
+</body>
+</html>

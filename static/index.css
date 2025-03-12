@@ -1,0 +1,146 @@
+:root {
+    --primary-color: #004a99;
+    --secondary-color: #0073cf;
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --white-color: #fff;
+    --black-color: #000;
+    --header-bg-color: #024091;
+        /* 标签栏背景颜色 */
+    --header-text-color: #fff; /* 标签栏文字颜色 */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    background-color: rgba(240, 240, 240, 0.2);
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* 动态向下效果关键帧 */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* 添加毛玻璃效果与向下动画 */
+.header {
+    /* 使用半透明背景实现毛玻璃效果 */
+        background: rgba(0, 47, 108, 0.5);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    color: var(--header-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* 动态向下的动画效果 */
+        animation: slideDown 0.5s ease-out forwards;
+}
+
+.header a {
+    color: var(--header-text-color);
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 0 15px;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.header a:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.header a:active {
+    transform: translateY(2px);
+}
+
+.link-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+.link-container a {
+    display: block;
+    color: var(--black-color);
+    text-decoration: none;
+    background: rgba(173, 216, 230, 0.5);
+    margin: 10px 0;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, color 0.3s, transform 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
+}
+
+.link-container a:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.link-container a:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.link-container a:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.link-container a:nth-child(4) {
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.link-container a:hover {
+    background: var(--primary-color);
+    color: var(--white-color);
+    transform: translateY(-5px);
+}
+
+.link-container a:active {
+    transform: translateY(2px);
+}
+
+/* 打字机效果介绍内容 */
+.intro {
+    margin-top: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+    padding: 20px;
+}

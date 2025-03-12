@@ -1,0 +1,40 @@
+/* code-effect.css */
+:root {
+    /* 集成到整体页面背景的颜色 */
+    --code-bg-color: rgba(240, 240, 240, 0.8);
+    /* 清晰易读的文字颜色 */
+    --code-text-color: #333;
+    /* 高亮颜色，与原主题一致 */
+    --code-highlight-color: #004a99;
+    /* 代码区域使用的字体 */
+    --code-font: "Source Code Pro", monospace;
+}
+
+#intro-container {
+    background-color: var(--code-bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 1000px;
+    margin: 40px auto;
+    /* 较轻的阴影和边框，使容器融入背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+/* 大标题样式 */
+#intro-container h1 {
+    font-family: var(--code-font);
+    font-size: 3em;
+    color: var(--code-highlight-color);
+    margin-bottom: 20px;
+    text-shadow: none; /* 取消阴影效果 */
+}
+
+/* 普通文本样式 */
+#intro-container p {
+    font-family: var(--code-font);
+    font-size: 1.5em;
+    color: var(--code-text-color);
+    margin-bottom: 15px;
+    line-height: 1.4;
+}

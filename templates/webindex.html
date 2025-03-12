@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TexTeller Handwriting Recognition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #canvas {
+            border: 1px solid #000;
+            background-color: #FFF;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🖋 TexTeller - Handwriting Math Recognition And Calculation</h1>
+    <p>Draw your math formula below and get the LaTeX answer!</p>
+    <canvas id="canvas" width="600" height="200"></canvas>
+    <br>
+    <button id="recognize">🖌 Recognize Formula</button>
+    <div id="result"></div>
+
+    <script>
+        // Set up the canvas for drawing
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        canvas.addEventListener('mousedown', (e) => {
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (drawing) {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+
+        canvas.addEventListener('mouseout', () => {
+            drawing = false;
+        });
+
+        // Send canvas image to the backend for recognition
+        document.getElementById('recognize').addEventListener('click', () => {
+            const imageData = canvas.toDataURL('image/png');
+            fetch('/recognize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image: imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                if (data.error) {
+                    resultDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                } else {
+                    resultDiv.innerHTML = `<p><strong>LaTeX Result:</strong> ${data.result}</p>
+                                           <p><strong>Output:</strong> ${data.output}</p>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = `<p style="color: red;">Error: ${error}</p>`;
+            });
+        });
+    </script>
+</body>
+</html>

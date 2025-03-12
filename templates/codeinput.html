@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运行 Python 代码</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='codeinput.css') }}">
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <link rel="stylesheet" href="codeMatrix.css">
+</head>
+<body>
+    <h3>输入 Python 代码：</h3>
+    <textarea id="pyCode" rows="10" cols="50">
+a = []
+for i in range(2):
+    b = []
+    for j in range(3):
+        b.append(j)
+    a.append(b)
+print(a)
+    </textarea>
+    <br>
+    <button onclick="runPython()">运行</button>
+
+    <h3>运行结果：</h3>
+    <div id="output"></div>
+
+    <script>
+        async function runPython() {
+            let code = document.getElementById("pyCode").value;
+            let response = await fetch("/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code: code })
+            });
+            let result = await response.json();
+
+            // 拼接输出内容，避免覆盖
+            document.getElementById("output").innerHTML = `
+                <p>矩阵: $$ ${result.output || "无输出"} $$</p>
+                <p>转置: $$ ${result.transposed || "无转置"} $$</p>
+                ${result.determinant ? `<p>行列式: $$ ${result.determinant} $$</p>` : ""}
+                ${result.inverse ? `<p>逆矩阵: $$ ${result.inverse} $$</p>` : ""}
+                ${result.error ? `<p style="color: red;">错误: ${result.error}</p>` : ""}
+            `;
+
+            // 触发 MathJax 渲染
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById("output")]);
+        }
+    </script>
+</body>
+</html>

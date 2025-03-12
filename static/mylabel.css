@@ -1,0 +1,32 @@
+:root {
+    --code-bg-color: rgba(240, 240, 240, 0.8);
+    --code-text-color: #333;
+    --code-highlight-color: #004a99;
+    --code-font: "Source Code Pro", monospace;
+}
+
+#intro-container {
+    background-color: var(--code-bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 1000px;
+    margin: 40px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+#intro-container h1 {
+    font-family: var(--code-font);
+    font-size: 3em;
+    color: var(--code-highlight-color);
+    margin-bottom: 20px;
+    text-shadow: none;
+}
+
+#intro-container p {
+    font-family: var(--code-font);
+    font-size: 1.5em;
+    color: var(--code-text-color);
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
